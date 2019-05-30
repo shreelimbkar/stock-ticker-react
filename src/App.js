@@ -2,11 +2,13 @@ import React from 'react';
 import './App.css';
 
 import StockList from './StockList';
+import StockWatchList from './StockWatchList';
 
 export default class App extends React.Component {
 
   constructor(props) {
     super(props);
+    this.uniqueStocks = [];
     this.state = {
       error: null,
       isLoaded: false,
@@ -49,7 +51,14 @@ export default class App extends React.Component {
         ...prevState.addedStock,
         newStock
       ]
-    }))
+    }));
+    this.uniqueStocks = Array.from(new Set(this.state.addedStock.map(s => s.latestPrice)))
+      .map(latestPrice => {
+        return {
+          latestPrice: latestPrice,
+          companyName: this.state.addedStock.find(s => s.latestPrice === latestPrice).companyName
+        }
+      })
   }
 
 
@@ -64,12 +73,12 @@ export default class App extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-3 pr-0">
+          <div className="col-4 pr-0">
             <aside>
-              Sidebar
+              <StockWatchList addedStock={this.state.addedStock} />
             </aside>
           </div>
-          <div className="col-9">
+          <div className="col-8">
             <section>
               Content
             </section>
