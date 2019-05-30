@@ -1,0 +1,14 @@
+
+html body {
+  height: 100%;
+  background-color: #fff;
+}
+header, aside, section {
+  margin-top: 5px;
+  padding: 5px 5px;
+  border: 1px solid #aaa;
+  background-color: #ccc;
+}
+aside, section {
+  min-height: calc(100vh - 50px);
+}
