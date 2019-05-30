@@ -8,12 +8,12 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.uniqueStocks = [];
+    this.addedStock = [];
     this.state = {
       error: null,
       isLoaded: false,
       stockItems: [],
-      addedStock: []
+      uniqueStocks: []
     }
   }
 
@@ -42,23 +42,29 @@ export default class App extends React.Component {
   }
 
   addStock = (e) => {
+    // create object of newly added stock
     let newStock = {
       companyName: e.target.text,
       latestPrice: e.target.dataset.price
     }
-    this.setState(prevState => ({
-      addedStock: [
-        ...prevState.addedStock,
-        newStock
-      ]
-    }));
-    this.uniqueStocks = Array.from(new Set(this.state.addedStock.map(s => s.latestPrice)))
+    // create array list of added stock
+    this.addedStock = [
+      ...this.addedStock,
+      newStock
+    ];
+    // add unique stock in the list of sidebar
+    this.addedStock = Array.from(new Set(this.addedStock.map(s => s.latestPrice)))
       .map(latestPrice => {
         return {
-          latestPrice: latestPrice,
-          companyName: this.state.addedStock.find(s => s.latestPrice === latestPrice).companyName
+          companyName: this.addedStock.find(s => s.latestPrice === latestPrice).companyName,
+          latestPrice: latestPrice
         }
-      })
+      });
+
+    this.setState({
+      uniqueStocks: this.addedStock
+    })
+
   }
 
 
@@ -75,7 +81,7 @@ export default class App extends React.Component {
         <div className="row">
           <div className="col-4 pr-0">
             <aside>
-              <StockWatchList addedStock={this.state.addedStock} />
+              <StockWatchList addedStock={this.state.uniqueStocks} />
             </aside>
           </div>
           <div className="col-8">
