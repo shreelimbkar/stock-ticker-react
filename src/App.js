@@ -64,7 +64,17 @@ export default class App extends React.Component {
     this.setState({
       uniqueStocks: this.addedStock
     })
+  }
 
+  showStockDetails = (e) => {
+    console.log('show stock details = ', e.target.dataset.cname);
+  }
+
+  handlerRemoveStock (e) {
+    e.stopPropagation();
+    console.log('stock name CLOSE ', e.target.dataset.cname);
+    // let filtered = this.state.uniqueStocks.filter(function(el) { return el.companyName !== e.target.dataset.cname; });
+    // console.log('filtered', filtered);
   }
 
 
@@ -81,7 +91,9 @@ export default class App extends React.Component {
         <div className="row">
           <div className="col-4 pr-0">
             <aside>
-              <StockWatchList addedStock={this.state.uniqueStocks} />
+              <StockWatchList addedStock={this.state.uniqueStocks} showStockDetails={this.showStockDetails} 
+              handlerRemoveStock={this.handlerRemoveStock}
+              />
             </aside>
           </div>
           <div className="col-8">
