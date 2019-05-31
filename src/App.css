@@ -1,4 +1,3 @@
-
 html body {
   height: 100%;
   background-color: #fff;
@@ -11,4 +10,7 @@ header, aside, section {
 }
 aside, section {
   min-height: calc(100vh - 50px);
+}
+.stocklist {
+  cursor: pointer;
 }

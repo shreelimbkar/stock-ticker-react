@@ -11,6 +11,7 @@ function StockWatchList(props) {
                 <ListGroup.Item action as="div" key={ shortid.generate() } 
                     data-symbol={ item.symbol } 
                     onClick={ props.showStockDetails }
+                    className="stocklist"
                 >
                     { item.companyName } 
                     <Badge variant="light" data-symbol={ item.symbol }>{ item.latestPrice }</Badge>

@@ -69,11 +69,12 @@ export default class App extends React.Component {
   }
 
   showStockDetails = (e) => { // toggle stock details when user will click on Stock name
+    e.stopPropagation();
     let symbol = e.target.dataset.symbol;
-
     let countPerStock = this.state.stockDetails.filter((s) => s.symbol === symbol);
-    console.log('isPresent', countPerStock);
-    console.log('this.state.stockDetails', this.state.stockDetails);
+    this.setState({
+      active: !this.state.active
+    })
     if (countPerStock.length < 1 ) {  
       this.setState({
         isLoaded: true
@@ -104,24 +105,30 @@ export default class App extends React.Component {
           }
         );
     } else {
-      let filtered = this.state.stockDetails.filter(function(el) { return el.symbol !== symbol; });
-      // remove selected stock from stockDetails
-      this.setState({
-        stockDetails: this.getUniqueStocks(filtered)
-      });
-      this.addStockDetails = []
+      this.removeStockDetails(symbol);
     }
   }
 
-  handlerRemoveStock = (e, sym) => {
+  handlerRemoveStock = (e) => {
     e.stopPropagation();
-    let filtered = this.state.uniqueStocks.filter(function(el) { return el.symbol !== e.target.dataset.symbol; });
+    let symbol = e.target.dataset.symbol;
+    let filtered = this.state.uniqueStocks.filter(function(el) { return el.symbol !== symbol; });
     // remove selected stock and set filtered stock to uniqueStocks
     this.setState({
       uniqueStocks: filtered
     });
     // again set uniqueStocks to addedStock object
     this.addedStock = filtered;
+    this.removeStockDetails(symbol);
+  }
+
+  removeStockDetails = (sym) => {
+    let filtered = this.state.stockDetails.filter(function(el) { return el.symbol !== sym; });
+    // remove selected stock from stockDetails
+    this.setState({
+      stockDetails: this.getUniqueStocks(filtered)
+    });
+    this.addStockDetails = []
   }
 
   getUniqueStocks = a => [...new Set(a.map(o => JSON.stringify(o)))].map(s => JSON.parse(s));

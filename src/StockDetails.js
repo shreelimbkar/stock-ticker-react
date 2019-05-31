@@ -13,10 +13,10 @@ function StockDetails(props) {
                     data-symbol={ item.symbol } 
                 >
                     <div className="row">
-                        <div className="col-2">
+                        <div className="col-2 border text-center">
                             <img width="80" height="80" src={item.logoUrl} alt={ item.companyName } />
                         </div>
-                        <div className="col-10">
+                        <div className="col-10 border">
                             <div className="row font-weight-bold">
                                 <div className="col-3">Symbol</div>
                                 <div className="col-3">Open</div>
