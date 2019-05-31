@@ -68,39 +68,52 @@ export default class App extends React.Component {
     });
   }
 
-  showStockDetails = (e) => {
+  showStockDetails = (e) => { // toggle stock details when user will click on Stock name
     let symbol = e.target.dataset.symbol;
-    this.setState({
-      isLoaded: true
-    });
-    fetch(`https://api.iextrading.com/1.0/stock/${symbol}/logo`)
-      .then(res => res.json())
-      .then(
-        result => {
-          let selectedStockItem = this.state.stockItems.filter((i) => {
-            return i.symbol === symbol
-          })[0];
 
-          let selectedItemStockDetails = {
-            ...selectedStockItem,
-            logoUrl: result.url
+    let countPerStock = this.state.stockDetails.filter((s) => s.symbol === symbol);
+    console.log('isPresent', countPerStock);
+    console.log('this.state.stockDetails', this.state.stockDetails);
+    if (countPerStock.length < 1 ) {  
+      this.setState({
+        isLoaded: true
+      });
+      fetch(`https://api.iextrading.com/1.0/stock/${symbol}/logo`)
+        .then(res => res.json())
+        .then(
+          result => {
+            let selectedStockItem = this.state.stockItems.filter((i) => {
+              return i.symbol === symbol
+            })[0];
+
+            let selectedItemStockDetails = {
+              ...selectedStockItem,
+              logoUrl: result.url
+            }
+            this.addStockDetails = [
+              ...this.addStockDetails,
+              selectedItemStockDetails
+            ];
+            this.setState({
+              stockDetails: this.getUniqueStocks(this.addStockDetails),
+              isLoaded: false
+            })
+          },
+          error => {
+            console.log('error in fetching logo', error);
           }
-          this.addStockDetails = [
-            ...this.addStockDetails,
-            selectedItemStockDetails
-          ];
-          this.setState({
-            stockDetails: this.addStockDetails,
-            isLoaded: false
-          })
-        },
-        error => {
-          console.log('error in fetching logo', error);
-        }
-      );
+        );
+    } else {
+      let filtered = this.state.stockDetails.filter(function(el) { return el.symbol !== symbol; });
+      // remove selected stock from stockDetails
+      this.setState({
+        stockDetails: this.getUniqueStocks(filtered)
+      });
+      this.addStockDetails = []
+    }
   }
 
-  handlerRemoveStock = (e) => {
+  handlerRemoveStock = (e, sym) => {
     e.stopPropagation();
     let filtered = this.state.uniqueStocks.filter(function(el) { return el.symbol !== e.target.dataset.symbol; });
     // remove selected stock and set filtered stock to uniqueStocks
