@@ -63,18 +63,22 @@ export default class App extends React.Component {
 
     this.setState({
       uniqueStocks: this.addedStock
-    })
+    });
   }
 
   showStockDetails = (e) => {
     console.log('show stock details = ', e.target.dataset.cname);
   }
 
-  handlerRemoveStock (e) {
+  handlerRemoveStock = (e) => {
     e.stopPropagation();
-    console.log('stock name CLOSE ', e.target.dataset.cname);
-    // let filtered = this.state.uniqueStocks.filter(function(el) { return el.companyName !== e.target.dataset.cname; });
-    // console.log('filtered', filtered);
+    let filtered = this.state.uniqueStocks.filter(function(el) { return el.companyName !== e.target.dataset.cname; });
+    // remove selected stock and set filtered stock to uniqueStocks
+    this.setState({
+      uniqueStocks: filtered
+    });
+    // again set uniqueStocks to addedStock object
+    this.addedStock = this.state.uniqueStocks;
   }
 
 
