@@ -8,10 +8,13 @@ function StockWatchList(props) {
         <React.Fragment>
           <ListGroup>
             { props.addedStock.map(item => (
-                <ListGroup.Item action as="div" key={ shortid.generate() } data-cname={ item.companyName } onClick={ props.showStockDetails }>
+                <ListGroup.Item action as="div" key={ shortid.generate() } 
+                    data-symbol={ item.symbol } 
+                    onClick={ props.showStockDetails }
+                >
                     { item.companyName } 
-                    <Badge variant="light" data-cname={ item.companyName }>{ item.latestPrice }</Badge>
-                    <Button className="float-right" onClick={props.handlerRemoveStock} data-cname={ item.companyName }
+                    <Badge variant="light" data-symbol={ item.symbol }>{ item.latestPrice }</Badge>
+                    <Button className="float-right" onClick={props.handlerRemoveStock} data-symbol={ item.symbol }
                     >X</Button>
                 </ListGroup.Item>
             )) }

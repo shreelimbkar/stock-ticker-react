@@ -13,7 +13,7 @@ function StockList(props) {
 
                 <Dropdown.Menu>
                     {props.symbols.map(item => (
-                        <Dropdown.Item data-price={item.latestPrice} href="#" onClick={props.addStock} key={shortid.generate()}>
+                        <Dropdown.Item data-symbol={item.symbol} data-price={item.latestPrice} href="#" onClick={props.addStock} key={shortid.generate()}>
                             { item.companyName }
                         </Dropdown.Item>
                     ))}
