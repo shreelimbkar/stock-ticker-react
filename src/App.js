@@ -93,7 +93,7 @@ export default class App extends React.Component {
               logoUrl: `https://storage.googleapis.com/iex/api/logos/${symbol}.png`
             }
             this.addStockDetails = [
-              ...this.addStockDetails,
+              ...this.state.stockDetails,
               selectedItemStockDetails
             ];
             this.setState({
@@ -127,7 +127,7 @@ export default class App extends React.Component {
     let filtered = this.state.stockDetails.filter(function(el) { return el.symbol !== sym; });
     // remove selected stock from stockDetails
     this.setState({
-      stockDetails: this.getUniqueStocks(filtered)
+      stockDetails: filtered
     });
     this.addStockDetails = []
   }
