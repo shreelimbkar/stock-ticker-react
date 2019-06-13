@@ -23,12 +23,12 @@ export default class App extends React.Component {
   componentDidMount() {
     // result is fetching more than 800 companies. So I have filtered only those companies whoes latest
     // volume is greater than 5000000
-    fetch("https://api.iextrading.com/1.0/stock/market/collection/sector?collectionName=Technology")
+    fetch("https://sandbox.iexapis.com/stable/stock/market/collection/sector?collectionName=Technology&token=Tpk_5413e3416f7a433c8dc366d0d66a3fa8")
       .then(res => res.json())
       .then(
         result => {
           let lVol = result.filter((r) => {
-            return r.latestVolume > 5000000
+            return r.latestVolume
           })
           this.setState({
             stockItems: lVol
@@ -79,7 +79,7 @@ export default class App extends React.Component {
       this.setState({
         isLoaded: true
       });
-      fetch(`https://api.iextrading.com/1.0/stock/${symbol}/logo`)
+      fetch(`https://sandbox.iexapis.com/stable/stock/${symbol}/logo?token=Tpk_5413e3416f7a433c8dc366d0d66a3fa8`)
         .then(res => res.json())
         .then(
           result => {
@@ -89,7 +89,8 @@ export default class App extends React.Component {
 
             let selectedItemStockDetails = {
               ...selectedStockItem,
-              logoUrl: result.url
+              // logoUrl: result.url
+              logoUrl: `https://storage.googleapis.com/iex/api/logos/${symbol}.png`
             }
             this.addStockDetails = [
               ...this.addStockDetails,
