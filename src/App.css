@@ -14,3 +14,8 @@ aside, section {
 .stocklist {
   cursor: pointer;
 }
+.dropdown-menu {
+  height: 500px;
+  border: 1px solid #444;
+  overflow: scroll;
+}
